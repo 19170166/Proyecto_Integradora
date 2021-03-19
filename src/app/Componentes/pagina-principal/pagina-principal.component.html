@@ -1,0 +1,22 @@
+<nav class='navbar navbar-dark bg-primary'>
+    <ul class='nav'>
+        <li class='nav-item' routerLink='Login' routerLinkActive='active' *ngIf='!logeado'>
+            <a class='nav-link text-white'>Login</a>
+        </li>
+        <li class='nav-item' routerLink='Registro' routerLinkActive='active' *ngIf='!logeado'>
+            <a class='nav-link text-white'>Registrar</a>
+        </li>
+        <li class='nav-item' *ngIf='logeado'>
+            <a class='nav-link text-white' routerLink='Detalle' routerLinkActive='active'>Inicio</a>
+        </li>
+        <li class='nav-item' *ngIf='logeado'>
+            <a class='nav-link text-white' routerLink='Notificaciones' routerLinkActive='active'>Notificaciones</a>
+        </li>
+    </ul>
+    <ul class='nav'>
+        <li class='nav-item float-right' *ngIf='logeado'>
+            <a class='nav-link text-white'>LogOut</a>
+        </li>
+    </ul>
+</nav>
+<router-outlet></router-outlet>
