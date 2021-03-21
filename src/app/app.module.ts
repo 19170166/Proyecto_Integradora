@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {HttpClientModule} from '@angular/common/http'
+import {HttpClientModule} from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,6 +11,8 @@ import { NotificacionesComponent } from './Componentes/notificaciones/notificaci
 import { PageNotFoundComponent } from './Componentes/page-not-found/page-not-found.component';
 import { LoginComponent } from './Componentes/login/login.component';
 import { RegistroComponent } from './Componentes/registro/registro.component';
+import { QRCodeModule } from 'angular2-qrcode';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { RegistroComponent } from './Componentes/registro/registro.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    QRCodeModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

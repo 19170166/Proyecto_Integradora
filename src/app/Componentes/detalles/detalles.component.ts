@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import Ws from '@adonisjs/websocket-client'
+import { AuthLoginService } from 'src/app/Servicios/AuthLogin/auth-login.service';
+import { errorMessage, successDialog } from 'src/app/Functions/alerts';
 
 
 @Component({
@@ -9,11 +11,24 @@ import Ws from '@adonisjs/websocket-client'
 })
 export class DetallesComponent implements OnInit {
 
-  n:number = 9
+  nivelSisterna:number = 75
+  nivelPila:number = 10
+  vr:number
+
+  user = {nombre:'angel'}
   
-  constructor() { }
+  constructor(private auth:AuthLoginService) { }
   ngOnInit(): void {
     
+  }
+  
+  llenar(){
+    const nivel = document.getElementById('selectNivel').value;
+    if(nivel<this.nivelSisterna){
+      this.nivelPila = nivel
+    }else{
+      errorMessage('No hay suficiente agua en la sisterna')
+    }
   }
 
 }

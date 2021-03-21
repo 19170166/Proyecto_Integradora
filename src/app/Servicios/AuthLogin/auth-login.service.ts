@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment.prod';
 
 
 @Injectable({
@@ -9,14 +10,16 @@ import { Observable } from 'rxjs';
 })
 export class AuthLoginService {
 
+  apiURL = environment.apiURL;
+
   constructor(private http:HttpClient, private cookie:CookieService) { }
 
   login(user:any): Observable<any>{
-    return this.http.post("https://reqres.in/api/login",user);
+    return this.http.post(this.apiURL + 'Login',user);
   }
 
   registro(user:any):Observable<any>{
-    return this.http.post("https://reqres.in/api/register",user)
+    return this.http.post(this.apiURL + 'Registro',user)
   }
 
   logout(){
@@ -24,7 +27,7 @@ export class AuthLoginService {
   }
 
   verifyLogin(){
-    let v = true;
+    let v = false;
     if(this.cookie.check('token')){
       v = true
       return v

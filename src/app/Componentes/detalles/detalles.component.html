@@ -2,16 +2,65 @@
 <div class='container shadow p-3 mb-5 bg-body rounded'>
     <div class='m-4'>
         <h5><b>Nivel de Agua</b></h5>
-        <div class="progress">
-            <div class="progress-bar" 
-            role="progressbar" [style.width.%]="n" 
-            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{n}}%</div>
+        <div class='my-3'>
+            <h5>Sisterna</h5>
+            <div class="progress">
+                <div class="progress-bar" 
+                role="progressbar" [style.width.%]="nivelSisterna" 
+                aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{nivelSisterna}}%</div>
+            </div>
         </div>
-        <button class='btn btn-primary mt-4'>Llenar</button>
+        <div class='my-3'>
+            <h5>Pila de Agua</h5>
+            <div class="progress">
+                <div class="progress-bar" 
+                role="progressbar" [style.width.%]="nivelPila" 
+                aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{nivelPila}}%</div>
+            </div>
+            {{nivelPila}}
+        </div>
+        <button class='btn btn-primary mt-4' data-bs-toggle="modal" data-bs-target="#exampleModal">Llenar</button>
     </div>
     <div class='m-4'>
         <h5><b>Humedad de la Tierra</b></h5>
         <h4>humedad</h4>
         <button class='btn btn-primary mt-4'>Regar</button>
+    </div>
+</div>
+
+<!--<qr-code [value]='user.nombre' [size]='80'></qr-code>-->
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Nivel del Agua</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+            <label for="customRange1" class="form-label">Nivel de llenado</label>
+            <input type="range" class="form-range" id="customRange1" id="selectNivel" 
+            min='0' max='100' step='1' list='tickmarks'>
+            <datalist id='tickmarks'>
+                <option value="0" label="0%">
+                <option value="10">
+                <option value="20">
+                <option value="30">
+                <option value="40">
+                <option value="50" label="50%">
+                <option value="60">
+                <option value="70">
+                <option value="80">
+                <option value="90">
+                <option value="100" label="100%">
+            </datalist>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-primary" (click)='llenar()'>Aceptar</button>
+        </div>
+        </div>
     </div>
 </div>
