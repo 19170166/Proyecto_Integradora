@@ -4,6 +4,8 @@ import { AuthLoginService } from 'src/app/Servicios/AuthLogin/auth-login.service
 import { errorMessage, successDialog } from 'src/app/Functions/alerts';
 import { NumberValueAccessor } from '@angular/forms';
 import {NgModule} from '@angular/core'
+import { environment } from 'src/environments/environment.prod';
+import { CookieService } from 'ngx-cookie-service';
 
 
 @Component({
@@ -13,8 +15,8 @@ import {NgModule} from '@angular/core'
 })
 export class DetallesComponent implements OnInit {
 
-  nivelSisterna:number = 75
-  nivelPila:number = 10
+  nivelSisterna = 55
+  nivelPila = 10
   vr:number
 
   valorprueba:Number
@@ -24,29 +26,33 @@ export class DetallesComponent implements OnInit {
   valor:any
   valorS:any
 
+  token:any = this.auth.getToken()
+
   isOnline:Boolean = false
 
-  user = {nombre:'angel'}
+  user:any
   
+  constructor(private auth:AuthLoginService,private cookie:CookieService) { }
   
-  constructor(private auth:AuthLoginService) { }
   ngOnInit(): void {
-    this.ws = Ws('ws://localhost:3333',{
+    this.ws = Ws('ws://'+environment.apiWebSocket,{
       path:'adonis-ws'
     });
 
-    this.ws.connect()
+    this.ws.withJwtToken(this.token).connect()
 
     this.valor = this.ws.subscribe('NivelP')
     this.valorS = this.ws.subscribe('NivelS')
 
-    this.valor.on('open', () => {
-      console.log('canal abierto')
-      this.isOnline = true
-    })
-    this.valorS.on('open', () =>{
-      console.log('canal 2 abierto')
-    })
+    // this.valor.on('open', () => {
+    //   console.log('canal abierto')
+    //   this.isOnline = true
+    // })
+    // this.valorS.on('open', () =>{
+    //   console.log('canal 2 abierto')
+    // })
+
+    this.user = this.cookie.get('user')
 
     this.valor.on('dato', (data:any) =>{
       console.log(data)
@@ -68,9 +74,19 @@ export class DetallesComponent implements OnInit {
   }
   
   llenar(){
-    const nivel = document.getElementById('selectNivel').value;
-    if(nivel<this.nivelSisterna){
-      this.nivelPila = nivel
+    const nivel =document.getElementById('selectNivel').value - this.nivelPila;
+    if(nivel < this.nivelSisterna){
+      if(Number(document.getElementById("selectNivel").value) > this.nivelPila){
+        if(this.nivelPila <= 100){
+          this.nivelPila = Number(this.nivelPila) + nivel
+          this.nivelSisterna -= nivel
+
+        }else{
+          errorMessage('La pila esta llena')
+        }
+      }else{
+        errorMessage('No se puede seleccionar ese valor')
+      }
     }else{
       errorMessage('No hay suficiente agua en la sisterna')
     }

@@ -11,10 +11,13 @@ import { environment } from 'src/environments/environment.prod';
 export class AuthLoginService {
 
   apiURL = environment.apiURL;
+  user:any;
 
   constructor(private http:HttpClient, private cookie:CookieService) { }
 
   login(user:any): Observable<any>{
+    const flagsecure = true
+    this.cookie.set('user',JSON.stringify(user),1,'/','localhost',flagsecure,'None')
     return this.http.post(this.apiURL + 'Login',user);
   }
 
@@ -25,7 +28,6 @@ export class AuthLoginService {
   logout(){
     this.cookie.delete('token')
   }
-
   verifyLogin(){
     let v = false;
     if(this.cookie.check('token')){
@@ -36,15 +38,16 @@ export class AuthLoginService {
   }
 
   setToken(token: string){
-    this.cookie.set('token', token);
+    this.cookie.set('token', token,1,'/','localhost',true,'None');
   }
 
   getToken(){
     return this.cookie.get('token');
   }
 
-  getUser(token:string){
-    return this.http.post('',token);
+  getUser(){
+    //return this.http.post('',token);
+    return this.user
   }
   
 }
