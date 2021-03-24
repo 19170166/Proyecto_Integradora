@@ -31,10 +31,15 @@ export class DetallesComponent implements OnInit {
   isOnline:Boolean = false
 
   user:any
+
+  cadena:string
   
   constructor(private auth:AuthLoginService,private cookie:CookieService) { }
   
   ngOnInit(): void {
+
+    this.cadena = this.auth.getRoom(20)
+
     this.ws = Ws('ws://'+environment.apiWebSocket,{
       path:'adonis-ws'
     });
