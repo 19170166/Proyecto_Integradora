@@ -35,12 +35,15 @@ export class RegistroComponent implements OnInit {
     }else{
       this.setUser();
       this.authservice.registro(this.user).subscribe((data:any) => {
-        console.log('entre al registro')
-        console.log(data)
-        timeMessage('Registrando', 1500).then(() => {
-          successDialog('Registro Completado');
-          this.router.navigate(['/Login']);
-      });
+        
+        if(data.status){
+          timeMessage('Registrando', 1500).then(() => {
+            successDialog('Registro Completado');
+            this.router.navigate(['/Login']);
+        });
+        }else{
+          errorMessage('Ese correo ya esta registrado')
+        }
     }, error => {
           errorMessage('Ha ocurrido un error')
       });

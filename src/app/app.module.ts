@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,6 +13,7 @@ import { LoginComponent } from './Componentes/login/login.component';
 import { RegistroComponent } from './Componentes/registro/registro.component';
 import { QRCodeModule } from 'angular2-qrcode';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { HttpHeaderService } from './Interceptors/http-header.service';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,11 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     ReactiveFormsModule,
     FormsModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: HttpHeaderService,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -22,6 +22,10 @@ export class LoginComponent implements OnInit {
   ws:any
   channel:any
 
+  sala:any
+  mail:any
+  pass:any
+
   constructor(private router:Router, private authservice:AuthLoginService, private fb:FormBuilder) { 
     this.createForm()
   }
@@ -37,11 +41,13 @@ export class LoginComponent implements OnInit {
     }else{
       this.setUser();
       this.authservice.login(this.user).subscribe((data:any) => {
+        console.log(data)
         timeMessage('Iniciando', 1500).then(() => {
           successDialog('Iniciado').then(()=> {
             console.log(data)
             this.authservice.setToken(data.token)
             //this.router.navigate(['/Detalle']);
+            
             window.location.reload();
           });
       });
@@ -81,37 +87,50 @@ export class LoginComponent implements OnInit {
     this.wantLogin = true
     this.QR = this.authservice.getRoom(25)
 
-    this.ws = Ws('ws//'+environment.apiWebSocket,{
+    this.ws = Ws('ws://'+environment.apiWebSocket,{
       path:'adonis-ws'
     })
-    const v = this.ws.connect()
-    console.log(v)
-    if (this.ws.connect()){
-      console.log('conexion realizada')
-      this.channel = this.ws.suscribe('SignIn:'+this.QR)
-      this.channel.on('session',(data:any) =>{
-        this.authservice.login(this.user).subscribe((data:any) => {
-          timeMessage('Iniciando', 1500).then(() => {
-            successDialog('Iniciado').then(()=> {
-              console.log(data)
-              this.authservice.setToken(data.token)
-              //this.router.navigate(['/Detalle']);
-              this.ws.close();
-              window.location.reload();
-            });
-        });
+    this.ws.connect()
+    console.log('conexion realizada')
+    this.channel = this.ws.subscribe('Login:'+this.QR)
+    this.channel.on('session',(data:any) =>{
+      this.authservice.login(this.user).subscribe((data:any) => {
+        timeMessage('Iniciando', 1500).then(() => {
+          successDialog('Iniciado').then(()=> {
+            console.log(data)
+            this.authservice.setToken(data.token)
+            //this.router.navigate(['/Detalle']);
+            this.ws.close();
+            window.location.reload();
+          });
       });
-      })
-
-    }else{
-      errorMessage('Algo salio mal, intentelo de nuevo')
-    }
+    });
+    })
 
   }
 
   hideQR(){
     this.wantLogin = false
     this.ws.close()
+  }
+
+  loginRoom(){
+    const user = {
+      email:this.mail,
+      password:this.pass
+    }
+
+    const jsonUser = JSON.stringify(user)
+
+    console.log(jsonUser)
+    console.log(user)
+    console.log(this.sala)
+
+    this.channel = this.ws.subscribe('Login:'+this.sala)
+    
+    this.channel.emit('session','hola')
+
+    //this.ws.close()
   }
 
 }
