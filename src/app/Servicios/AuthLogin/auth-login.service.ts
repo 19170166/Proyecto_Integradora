@@ -38,7 +38,7 @@ export class AuthLoginService {
   }
 
   setToken(token: string){
-    this.cookie.set('token', token,1,'/','localhost',true,'None');
+    this.cookie.set('token', token,1);
   }
 
   getToken(){
