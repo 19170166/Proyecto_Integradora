@@ -24,12 +24,8 @@ export class HttpHeaderService implements HttpInterceptor {
       
       return next.handle(reqclone)
     }else{
-      return next.handle(req)
+      alert('algo salio mal')
     }
   }
-
-  token:any
-
   
-
 }
