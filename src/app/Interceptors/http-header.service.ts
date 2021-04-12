@@ -21,8 +21,8 @@ export class HttpHeaderService implements HttpInterceptor {
       const reqclone = req.clone({
         headers
       })
-
-      return next.handle(req)
+      
+      return next.handle(reqclone)
     }else{
       return next.handle(req)
     }
