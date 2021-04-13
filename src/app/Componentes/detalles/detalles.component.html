@@ -41,9 +41,11 @@
         </div>
         <div class="modal-body">
 
-            <label for="customRange1" class="form-label">Nivel de llenado</label>
+            <label for="customRange1" class="form-label">Nivel de llenado: 
+                <b>{{nivel}}%</b> </label>
             <input type="range" class="form-range" id="customRange1" id="selectNivel" 
-            min='0' max='100' step='1' list='tickmarks'>
+            min='0' max='100' step='1' list='tickmarks' [(ngModel)]='nivel'>
+            
 
         </div>
         <div class="modal-footer">
@@ -54,8 +56,8 @@
     </div>
 </div>
 
-<input type="text" [(ngModel)]='valorprueba'>
+<!--<input type="text" [(ngModel)]='valorprueba'>
 <button (click)='enviardato()'>enviar</button>
 
 <input type="text" [(ngModel)]='valorprueba2'>
-<button (click)='enviardato2()'>enviar</button>
+<button (click)='enviardato2()'>enviar</button>> -->
